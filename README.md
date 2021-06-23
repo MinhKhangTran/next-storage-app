@@ -1,34 +1,91 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# A Simple Storage App
 
-## Getting Started
+# User Flow
 
-First, run the development server:
+## Homepage /Public
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- The user sees a registration site
+- The User gets notification if logged in (un)successfully
+- User is prompt to login with github oder email
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Inventar page /Private
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+- The user sees all available items as a table. User can sort by quantity
+- The user can mark an item important
+- The user can search for an item
+- The user can add new item, increase, decrease available items.
+- If an item’s quantity is lower than 3 the number is shown red
+- The user can Logout
+- The user gets notification if logged out and will be redirected to the homepage
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Add/Edit page /Private
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- The user sees a form with name, quantity and image
+- If editing the user sees form with filled inputs
+- The user gets notification if add/edit a new item
 
-## Learn More
+## Profile Page /Private
 
-To learn more about Next.js, take a look at the following resources:
+- The User can change his password or username (just for practising)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Admin Page / Private
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- tbc
 
-## Deploy on Vercel
+# Tech Stack behind
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Next js
+- typescript
+- axios
+- nprogress
+- Styled-jsx
+- SWR
+- react-hook-forms
+- MongoDB / mongoose
+- NextAuth
+- Redux Toolkit
+- Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# Milestones
+
+1. Start a new Next js App using typescript✅
+   - create tsconfig.json ✅
+   - add baseUrl and no relative paths✅
+   - create relevant pages✅
+     - /
+     - /create
+     - /inventar
+     - /profile
+2. Add MongoDB Atlas (backendish)
+   - initialize a new Mongo DB✅
+   - connect it to the App✅
+   - create a new Item Schema with mongoose✅
+   - create API Route to read and create items
+     - /api/items
+   - create API Route to read item by ID, delete and update item
+     - /api/items/[id]
+3. Style the pages using styled jsx
+   - Create a Layout with Navigation to navigate through pages
+   - use nprogress
+   - Mobile Responsive
+4. Connect App to Redux for State Management
+   - notification state
+   - user state (handle login, register and autoSignin)
+5. Create Components from the frontend to call these functions
+   - fetch users items on the homepage (useSWR)
+   - use react-hook-forms for creating new items
+   - create Icons to delete and update
+   - use react-hook-forms for updating an old item => get items data in form
+6. Add support for user auth with next auth
+
+   - start with next auth credentials
+   - redirect unlogged user to homepage
+   - if logged in show user profile page with made items
+
+7. User can search for items and filter, sort
+8. Pagination
+9. Do some SEO Stuffs and 404 page
+10. Lauch on Vercel
+    - add db into next.config.js ✅
+    - deploy app
+    - add env variables to vercel
