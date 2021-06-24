@@ -1,3 +1,4 @@
+import asyncWrapper from "@/middlewares/async";
 import Item from "@/models/Item";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -7,14 +8,12 @@ import { NextApiRequest, NextApiResponse } from "next";
  * PRIVATE
  */
 
-export const createItem = async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
+export const createItem = asyncWrapper(
+  async (req: NextApiRequest, res: NextApiResponse) => {
     const newItem = await Item.create(req.body);
     res.status(200).json(newItem);
-  } catch (error) {
-    console.log(error);
   }
-};
+);
 
 /**
  * Get Items
@@ -22,14 +21,12 @@ export const createItem = async (req: NextApiRequest, res: NextApiResponse) => {
  * PRIVATE
  */
 
-export const getItems = async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
+export const getItems = asyncWrapper(
+  async (req: NextApiRequest, res: NextApiResponse) => {
     const items = await Item.find().sort({ createdAt: -1 });
     res.status(200).json(items);
-  } catch (error) {
-    console.log(error);
   }
-};
+);
 
 /**
  * Get Item by ID
@@ -37,17 +34,15 @@ export const getItems = async (req: NextApiRequest, res: NextApiResponse) => {
  * PRIVATE
  */
 
-export const getItemById = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
-  try {
+export const getItemById = asyncWrapper(
+  async (req: NextApiRequest, res: NextApiResponse) => {
     const item = await Item.findById(req.query.id);
+    if (!item) {
+      return res.status(400).json({ message: "Kein Item gefunden" });
+    }
     res.status(200).json(item);
-  } catch (error) {
-    console.log(error);
   }
-};
+);
 
 /**
  * Update Item
@@ -55,8 +50,8 @@ export const getItemById = async (
  * PRIVATE
  */
 
-export const updateItem = async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
+export const updateItem = asyncWrapper(
+  async (req: NextApiRequest, res: NextApiResponse) => {
     const item = await Item.findById(req.query.id);
     if (!item) {
       return res.status(400).json({ message: "Kein Item gefunden" });
@@ -64,13 +59,11 @@ export const updateItem = async (req: NextApiRequest, res: NextApiResponse) => {
     const updateItem = await Item.findByIdAndUpdate(
       req.query.id,
       { $set: req.body },
-      { new: true }
+      { new: true, runValidators: true }
     );
     res.status(200).json(updateItem);
-  } catch (error) {
-    console.log(error);
   }
-};
+);
 
 /**
  * Delete Item
@@ -78,15 +71,13 @@ export const updateItem = async (req: NextApiRequest, res: NextApiResponse) => {
  * PRIVATE
  */
 
-export const deleteItem = async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
+export const deleteItem = asyncWrapper(
+  async (req: NextApiRequest, res: NextApiResponse) => {
     const item = await Item.findById(req.query.id);
     if (!item) {
       return res.status(400).json({ message: "Kein Item gefunden" });
     }
     item.remove();
     res.status(200).json({ message: "Item gelöscht" });
-  } catch (error) {
-    console.log(error);
   }
-};
+);
