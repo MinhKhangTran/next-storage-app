@@ -11,7 +11,7 @@ const itemSchema: Schema = new Schema(
     },
     menge: {
       type: Number,
-      required: [true, "Bitte eine Zahl eingeben"],
+      required: [true, "Bitte eine Menge eingeben"],
     },
     bild: {
       //   wegen cloudinary
@@ -24,6 +24,7 @@ const itemSchema: Schema = new Schema(
         required: false,
       },
     },
+    //User
   },
   { timestamps: true }
 );
