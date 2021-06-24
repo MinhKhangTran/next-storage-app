@@ -1,8 +1,10 @@
-import { signIn, signOut, useSession } from "next-auth/client";
+import { connectDB } from "@/config/db";
+import User from "@/models/User";
+import { Session } from "next-auth";
+import { getSession, signIn, signOut, useSession } from "next-auth/client";
 
 const IndexPage = () => {
   const [session, loading] = useSession();
-  console.log(session);
 
   return (
     <>
@@ -21,5 +23,16 @@ const IndexPage = () => {
     </>
   );
 };
+
+export async function getServerSideProps(context: any) {
+  connectDB();
+  const session = await getSession({ req: context.req });
+  const user = await User.findOne({ name: session?.user?.name });
+  console.log(user);
+
+  return {
+    props: {},
+  };
+}
 
 export default IndexPage;

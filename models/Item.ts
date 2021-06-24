@@ -25,6 +25,11 @@ const itemSchema: Schema = new Schema(
       },
     },
     //User
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
