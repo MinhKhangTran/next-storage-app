@@ -1,9 +1,24 @@
+import { signIn, signOut, useSession } from "next-auth/client";
+
 const IndexPage = () => {
+  const [session, loading] = useSession();
+  console.log(session);
+
   return (
-    <div>
-      <h1>hi</h1>
-      <p className="body-lg">Was geht</p>
-    </div>
+    <>
+      {!session && (
+        <>
+          Not signed in <br />
+          <button onClick={() => signIn()}>Sign in</button>
+        </>
+      )}
+      {session && (
+        <>
+          Signed in as {session.user?.name} <br />
+          <button onClick={() => signOut()}>Sign out</button>
+        </>
+      )}
+    </>
   );
 };
 
