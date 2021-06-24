@@ -21,6 +21,8 @@ export const createItem = asyncWrapper(
     } catch (error) {
       return next(createCustomError(error, 500));
     }
+
+    req.body.user = req.user;
     const newItem = await Item.create(req.body);
     res.status(200).json(newItem);
   }

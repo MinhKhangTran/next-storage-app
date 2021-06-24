@@ -2,10 +2,12 @@ import { connectDB } from "@/config/db";
 import { createItem, getItems } from "@/controllers/itemControllers";
 import nc from "next-connect";
 import onError from "@/middlewares/errorHandler";
+import isAuth from "@/middlewares/auth";
 
 const handler = nc({ onError });
 
 connectDB();
-handler.post(createItem).get(getItems);
+handler.get(getItems);
+handler.use(isAuth).post(createItem);
 
 export default handler;
