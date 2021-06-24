@@ -1,6 +1,7 @@
 import asyncWrapper from "@/middlewares/async";
 import Item from "@/models/Item";
 import { NextApiRequest, NextApiResponse } from "next";
+import { createCustomError } from "@/utils/customError";
 
 /**
  * Create new Item
@@ -9,7 +10,7 @@ import { NextApiRequest, NextApiResponse } from "next";
  */
 
 export const createItem = asyncWrapper(
-  async (req: NextApiRequest, res: NextApiResponse) => {
+  async (req: NextApiRequest, res: NextApiResponse, next: any) => {
     const newItem = await Item.create(req.body);
     res.status(200).json(newItem);
   }
@@ -22,7 +23,7 @@ export const createItem = asyncWrapper(
  */
 
 export const getItems = asyncWrapper(
-  async (req: NextApiRequest, res: NextApiResponse) => {
+  async (req: NextApiRequest, res: NextApiResponse, next: any) => {
     const items = await Item.find().sort({ createdAt: -1 });
     res.status(200).json(items);
   }
@@ -35,10 +36,10 @@ export const getItems = asyncWrapper(
  */
 
 export const getItemById = asyncWrapper(
-  async (req: NextApiRequest, res: NextApiResponse) => {
+  async (req: NextApiRequest, res: NextApiResponse, next: any) => {
     const item = await Item.findById(req.query.id);
     if (!item) {
-      return res.status(400).json({ message: "Kein Item gefunden" });
+      return next(createCustomError("Kein Item gefunden", 404));
     }
     res.status(200).json(item);
   }
@@ -51,10 +52,10 @@ export const getItemById = asyncWrapper(
  */
 
 export const updateItem = asyncWrapper(
-  async (req: NextApiRequest, res: NextApiResponse) => {
+  async (req: NextApiRequest, res: NextApiResponse, next: any) => {
     const item = await Item.findById(req.query.id);
     if (!item) {
-      return res.status(400).json({ message: "Kein Item gefunden" });
+      return next(createCustomError("Kein Item gefunden", 404));
     }
     const updateItem = await Item.findByIdAndUpdate(
       req.query.id,
@@ -72,10 +73,10 @@ export const updateItem = asyncWrapper(
  */
 
 export const deleteItem = asyncWrapper(
-  async (req: NextApiRequest, res: NextApiResponse) => {
+  async (req: NextApiRequest, res: NextApiResponse, next: any) => {
     const item = await Item.findById(req.query.id);
     if (!item) {
-      return res.status(400).json({ message: "Kein Item gefunden" });
+      return next(createCustomError("Kein Item gefunden", 404));
     }
     item.remove();
     res.status(200).json({ message: "Item gelöscht" });
