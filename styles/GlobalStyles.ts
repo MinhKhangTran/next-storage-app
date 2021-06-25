@@ -1,11 +1,6 @@
-/* fonts */
-@import url("https://fonts.googleapis.com/css2?family=Pangolin&family=Roboto&display=swap");
+import { createGlobalStyle } from "styled-components";
 
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-
+const GlobalStyles = createGlobalStyle`
 html,
 body,
 div,
@@ -297,3 +292,5 @@ label {
   line-height: var(--hint-lh);
   font-weight: var(--hint-fw);
 }
+`;
+export default GlobalStyles;
