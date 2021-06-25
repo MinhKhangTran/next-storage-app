@@ -3,6 +3,7 @@ import User from "@/models/User";
 import axios from "axios";
 import { getSession } from "next-auth/client";
 import { useForm } from "react-hook-form";
+import Layout from "@/components/ui/Layout";
 
 const CreatePage = () => {
   const {
@@ -21,13 +22,15 @@ const CreatePage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label>Name</label>
-      <input type="text" {...register("name")}></input>
-      <label>Menge</label>
-      <input type="number" {...register("menge")}></input>
-      <button type="submit">Hinzufügen</button>
-    </form>
+    <Layout Heading="Hinzufügen">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <label>Name</label>
+        <input type="text" {...register("name")}></input>
+        <label>Menge</label>
+        <input type="number" {...register("menge")}></input>
+        <button type="submit">Hinzufügen</button>
+      </form>
+    </Layout>
   );
 };
 

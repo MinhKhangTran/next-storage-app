@@ -1,5 +1,7 @@
+import Layout from "@/components/ui/Layout";
+
 const ProfilePage = () => {
-  return <div>ProfilePage</div>;
+  return <Layout Heading="Profil">Inventar</Layout>;
 };
 
 export default ProfilePage;

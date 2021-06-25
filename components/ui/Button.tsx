@@ -2,7 +2,7 @@ import { ButtonProps } from "@/interfaces/Button";
 import styled, { css } from "styled-components";
 
 export const Button = styled.button<ButtonProps>`
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
   padding: 1rem 2rem;
   ${({ outline }) => {
     return outline

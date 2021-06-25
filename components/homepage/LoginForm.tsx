@@ -16,7 +16,12 @@ const LoginForm = () => {
           width="641,67"
           height="617,5"
         ></Image>
-        <Button large onClick={() => signIn()} type="button">
+        <Button
+          style={{ marginTop: "2rem" }}
+          large
+          onClick={() => signIn()}
+          type="button"
+        >
           Einloggen mit Github
         </Button>
       </div>
