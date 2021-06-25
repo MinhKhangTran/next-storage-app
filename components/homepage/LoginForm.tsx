@@ -2,6 +2,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import github_login from "../../public/images/Github_login.png";
 import { signIn } from "next-auth/client";
+import { Button } from "@/components/ui/Button";
 
 const LoginForm = () => {
   return (
@@ -15,9 +16,9 @@ const LoginForm = () => {
           width="641,67"
           height="617,5"
         ></Image>
-        <button onClick={() => signIn()} type="button">
+        <Button large onClick={() => signIn()} type="button">
           Einloggen mit Github
-        </button>
+        </Button>
       </div>
     </StyledSection>
   );
@@ -39,23 +40,7 @@ const StyledSection = styled.section`
     background: var(--primary-50);
     border-radius: 20px;
   }
-  button {
-    margin-top: 2rem;
-    padding: 1rem 2rem;
-    background: var(--primary-500);
-    border: none;
-    border-radius: 0.375rem;
-    width: 100%;
-    color: white;
-    font-size: 1.25rem;
-    cursor: pointer;
-    transition: var(--transtion);
-    &:hover {
-      background: var(--primary-600);
-      color: var(--primary-50);
-      box-shadow: var(--shadow-1);
-    }
-  }
+
   @media screen and (max-width: 768px) {
     .card {
       width: 100vw;

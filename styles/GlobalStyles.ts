@@ -292,5 +292,6 @@ label {
   line-height: var(--hint-lh);
   font-weight: var(--hint-fw);
 }
+
 `;
 export default GlobalStyles;

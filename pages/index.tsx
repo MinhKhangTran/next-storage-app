@@ -7,11 +7,11 @@ const IndexPage = () => {
   const [session, loading] = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (session) {
-      router.push("/inventar");
-    }
-  }, [session]);
+  // useEffect(() => {
+  //   if (session) {
+  //     router.push("/inventar");
+  //   }
+  // }, [session]);
 
   return (
     <>
