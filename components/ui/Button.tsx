@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 
 export const Button = styled.button<ButtonProps>`
   /* margin-top: 2rem; */
-  padding: 1rem 2rem;
+  padding: 0.75rem 1.5rem;
   ${({ outline }) => {
     return outline
       ? css`
@@ -32,7 +32,10 @@ export const Button = styled.button<ButtonProps>`
   border-radius: 0.375rem;
   width: ${({ large }) => (large ? "100%" : "auto")};
 
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: var(--transtion);
+  @media screen and (max-width: 768px) {
+    font-size: 0.9rem;
+  }
 `;
