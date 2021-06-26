@@ -26,7 +26,7 @@
 
 ## Profile Page /Private
 
-- The User can change his password or username (just for practising)
+- ~~The User can change his password or username (just for practising)~~
 
 ## Admin Page / Private
 
@@ -37,13 +37,14 @@
 - Next js
 - typescript
 - axios
-- nprogress
-- Styled-jsx
+- ~~Styled-jsx~~
+- styled components
 - SWR
 - react-hook-forms
 - MongoDB / mongoose
 - NextAuth
-- Redux Toolkit
+- ~~Redux Toolkit~~
+- Zustand
 - Vercel
 
 # Milestones
@@ -60,27 +61,25 @@
    - initialize a new Mongo DB✅
    - connect it to the App✅
    - create a new Item Schema with mongoose✅
-   - create API Route to read and create items
+   - create API Route to read and create items✅
      - /api/items
    - create API Route to read item by ID, delete and update item
      - /api/items/[id]
 3. Style the pages using styled jsx
-   - Create a Layout with Navigation to navigate through pages
-   - use nprogress
-   - Mobile Responsive
-4. Connect App to Redux for State Management
+   - Create a Layout with Navigation to navigate through pages✅
+   - Mobile Responsive✅
+4. Connect App to ~~Redux~~ Zustand for State Management
    - notification state
-   - user state (handle login, register and autoSignin)
 5. Create Components from the frontend to call these functions
    - fetch users items on the homepage (useSWR)
    - use react-hook-forms for creating new items
    - create Icons to delete and update
    - use react-hook-forms for updating an old item => get items data in form
-6. Add support for user auth with next auth
+6. Add support for user auth with next auth✅
 
-   - start with next auth credentials
-   - redirect unlogged user to homepage
-   - if logged in show user profile page with made items
+   - start with next auth credentials✅
+   - redirect unlogged user to homepage✅
+   - if logged in show user profile page with made items✅
 
 7. User can search for items and filter, sort
 8. Pagination
