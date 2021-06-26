@@ -208,7 +208,7 @@ html {
   --textColor: var(--primary-900);
   --borderRadius: 0.25rem;
   --letterSpacing: 1px;
-  --transtion: 0.3s ease-in-out all;
+  --transition: 0.3s ease-in-out all;
   --max-width: 1120px;
   --fixed-width: 600px;
   /* box shadow*/

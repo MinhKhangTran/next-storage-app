@@ -34,7 +34,7 @@ export const Button = styled.button<ButtonProps>`
 
   font-size: 1.1rem;
   cursor: pointer;
-  transition: var(--transtion);
+  transition: var(--transition);
   @media screen and (max-width: 768px) {
     font-size: 0.9rem;
   }

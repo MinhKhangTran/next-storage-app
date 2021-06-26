@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/Button";
+import { useRouter } from "next/dist/client/router";
 import styled from "styled-components";
 
 const Navigation = () => {
+  const router = useRouter();
   return (
     <Wrapper>
       <div className="filter">
@@ -19,7 +21,13 @@ const Navigation = () => {
         </div>
       </div>
 
-      <Button>Hinzufügen</Button>
+      <Button
+        onClick={() => {
+          router.push("/create");
+        }}
+      >
+        Hinzufügen
+      </Button>
     </Wrapper>
   );
 };
