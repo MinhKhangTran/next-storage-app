@@ -7,7 +7,6 @@ import Image from "next/image";
 import sample from "../../public/images/sample.jpeg";
 
 const Table = ({ items }: { items: IItem[] }) => {
-  if (!items) return <div>Es lädt noch ...</div>;
   return (
     <StyledTable>
       <thead>

@@ -7,7 +7,7 @@ import isAuth from "@/middlewares/auth";
 const handler = nc({ onError });
 
 connectDB();
-handler.get(getItems);
+handler.use(isAuth).get(getItems);
 handler.use(isAuth).post(createItem);
 
 export default handler;

@@ -36,7 +36,8 @@ export const createItem = asyncWrapper(
 
 export const getItems = asyncWrapper(
   async (req: NextApiRequest, res: NextApiResponse, next: any) => {
-    const items = await Item.find().sort({ createdAt: -1 });
+    const user = req.user;
+    const items = await Item.find({ user }).sort({ createdAt: -1 });
     res.status(200).json(items);
   }
 );

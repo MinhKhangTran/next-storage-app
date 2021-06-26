@@ -291,6 +291,7 @@ label {
   font-size: var(--hint-fs);
   line-height: var(--hint-lh);
   font-weight: var(--hint-fw);
+  color: var(--red-dark)
 }
 
 `;

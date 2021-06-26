@@ -22,6 +22,7 @@ const InventarPage = () => {
   //   }
   // }, [session]);
 
+  if (!data) return <Layout Heading="Inventar">Es lädt nocht...</Layout>;
   return (
     <Layout Heading="Inventar">
       {/* Navigation => Search Dropdown and Button */}
