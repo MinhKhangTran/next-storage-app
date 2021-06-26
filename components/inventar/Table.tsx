@@ -10,40 +10,44 @@ const Table = ({ items }: { items: IItem[] }) => {
   if (!items) return <div>Es lädt noch ...</div>;
   return (
     <StyledTable>
-      <tr>
-        <th>Bild</th>
-        <th>Name</th>
-        <th>Menge</th>
-        <th>Zuletzt geändert</th>
-      </tr>
-      {items.map((item) => {
-        return (
-          <tr key={item._id}>
-            <td>
-              {item.bild ? (
-                <Image src={item.bild.url} width="50" height="50" />
-              ) : (
-                <Image src={sample} width="50" height="50" />
-              )}
-            </td>
-            <td>{item.name}</td>
-            <td className="menge">
-              <button className="minus">
-                <FaMinus />
-              </button>
-              {item.menge}
-              <button className="plus">
-                <FaPlus />
-              </button>
-            </td>
-            <td>
-              <Moment locale="de" fromNow>
-                {item.updatedAt}
-              </Moment>
-            </td>
-          </tr>
-        );
-      })}
+      <thead>
+        <tr>
+          <th>Bild</th>
+          <th>Name</th>
+          <th>Menge</th>
+          <th>Zuletzt geändert</th>
+        </tr>
+      </thead>
+      <tbody>
+        {items.map((item) => {
+          return (
+            <tr key={item._id}>
+              <td>
+                {item.bild ? (
+                  <Image src={item.bild.url} width="50" height="50" />
+                ) : (
+                  <Image src={sample} width="50" height="50" />
+                )}
+              </td>
+              <td>{item.name}</td>
+              <td className="menge">
+                <button className="minus">
+                  <FaMinus />
+                </button>
+                {item.menge}
+                <button className="plus">
+                  <FaPlus />
+                </button>
+              </td>
+              <td>
+                <Moment locale="de" fromNow>
+                  {item.updatedAt}
+                </Moment>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
     </StyledTable>
   );
 };

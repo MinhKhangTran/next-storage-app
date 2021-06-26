@@ -4,11 +4,21 @@ import Table from "@/components/inventar/Table";
 
 import useSWR from "swr";
 import { IItem } from "@/interfaces/Item";
-import { getSession } from "next-auth/client";
+import { getSession, useSession } from "next-auth/client";
+import { useRouter } from "next/dist/client/router";
+import { useEffect } from "react";
 
 const InventarPage = () => {
   const { data, error } = useSWR("/api/items") as { data: IItem[]; error: any };
   console.log(error, data);
+  const [session] = useSession();
+  const router = useRouter();
+
+  // useEffect(() => {
+  //   if (!session) {
+  //     router.push("/");
+  //   }
+  // }, [session]);
 
   return (
     <Layout Heading="Inventar">
@@ -21,8 +31,9 @@ const InventarPage = () => {
   );
 };
 
-export async function getServerSidePorps(context: any) {
+export async function getServerSideProps(context: any) {
   const session = await getSession({ req: context.req });
+
   if (!session) {
     return {
       redirect: {
@@ -35,5 +46,4 @@ export async function getServerSidePorps(context: any) {
     props: {},
   };
 }
-
 export default InventarPage;

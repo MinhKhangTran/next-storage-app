@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Head from "next/head";
 import { Button } from "@/components/ui/Button";
+import { signOut } from "next-auth/client";
 
 const Layout = ({
   children,
@@ -24,7 +25,9 @@ const Layout = ({
       </Head>
       <nav>
         <h1>{Heading}</h1>
-        <Button outline>Logout</Button>
+        <Button onClick={() => signOut()} outline>
+          Logout
+        </Button>
       </nav>
       {children}
     </StyledLayout>
