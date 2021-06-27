@@ -1,16 +1,14 @@
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/dist/client/router";
 import styled from "styled-components";
+import Search from "./Search";
 
 const Navigation = () => {
   const router = useRouter();
   return (
     <Wrapper>
       <div className="filter">
-        <div className="form-control">
-          <label>Suche...</label>
-          <input type="text"></input>
-        </div>
+        <Search />
         <div className="form-control">
           <label>Filtern nach</label>
           <select name="items" id="items">

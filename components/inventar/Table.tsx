@@ -23,9 +23,14 @@ const Table = ({ items }: { items: IItem[] }) => {
             <tr key={item._id}>
               <td>
                 {item.bild ? (
-                  <Image src={item.bild.url} width="50" height="50" />
+                  <Image
+                    className="img"
+                    src={item.bild.url}
+                    width="70"
+                    height="70"
+                  />
                 ) : (
-                  <Image src={sample} width="50" height="50" />
+                  <Image className="img" src={sample} width="70" height="70" />
                 )}
               </td>
               <td>{item.name}</td>
@@ -79,6 +84,9 @@ const StyledTable = styled.table`
       background-color: var(--primary-100);
     }
   } */
+  .img {
+    border-radius: 50%;
+  }
 
   .menge {
     display: flex;

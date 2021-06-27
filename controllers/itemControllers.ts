@@ -5,6 +5,7 @@ import { createCustomError } from "@/utils/customError";
 import { itemSchema } from "@/utils/itemValidation";
 import { IImage } from "@/interfaces/Item";
 import cloudinary from "cloudinary";
+import { APIFeatures } from "@/utils/apiFeatures";
 
 // Setting up cloudinary config
 //@ts-expect-error
@@ -62,7 +63,12 @@ export const createItem = asyncWrapper(
 export const getItems = asyncWrapper(
   async (req: NextApiRequest, res: NextApiResponse, next: any) => {
     const user = req.user;
-    const items = await Item.find({ user }).sort({ createdAt: -1 });
+    //add search
+    const apiFeatures = new APIFeatures(
+      Item.find({ user }).sort({ createdAt: -1 }),
+      req.query
+    ).search();
+    const items = await apiFeatures.query;
     res.status(200).json(items);
   }
 );
