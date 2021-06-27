@@ -3,6 +3,16 @@ import Item from "@/models/Item";
 import { NextApiRequest, NextApiResponse } from "next";
 import { createCustomError } from "@/utils/customError";
 import { itemSchema } from "@/utils/itemValidation";
+import { IImage } from "@/interfaces/Item";
+import cloudinary from "cloudinary";
+
+// Setting up cloudinary config
+//@ts-expect-error
+cloudinary.config({
+  cloud_name: `${process.env.CLOUDINARY_CLOUD_NAME}`,
+  api_key: `${process.env.CLOUDINARY_API_KEY}`,
+  api_secret: `${process.env.CLOUDINARY_API_SECRET}`,
+});
 
 /**
  * Create new Item
@@ -21,6 +31,21 @@ export const createItem = asyncWrapper(
     } catch (error) {
       return next(createCustomError(error, 500));
     }
+    const bild = req.body.bild;
+
+    //cloudinary actions
+    const result = await cloudinary.v2.uploader.upload(bild, {
+      folder: "storage/items",
+    });
+
+    let imageLink: IImage = { public_id: "", url: "" };
+    console.log(result);
+
+    imageLink.public_id = result.public_id;
+
+    imageLink.url = result.secure_url;
+
+    req.body.bild = imageLink;
 
     req.body.user = req.user;
     const newItem = await Item.create(req.body);
