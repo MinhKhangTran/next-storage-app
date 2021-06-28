@@ -9,10 +9,16 @@ import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import styled from "styled-components";
 import Pagination from "@/components/inventar/Pagination";
+import { useSearchStore } from "@/utils/store";
 
 const InventarPage = () => {
-  const { data, error } = useSWR("/api/items") as { data: IItem[]; error: any };
-  console.log(error, data);
+  // console.log(error, data);
+  const searchData = useSearchStore((state) => state.searchData);
+  // console.log(searchData);
+  const { data } = useSWR(
+    searchData === "" ? "/api/items" : `/api/items?item=${searchData}`
+  ) as { data: IItem[]; error: any };
+
   // const [session] = useSession();
   // const router = useRouter();
 
