@@ -1,11 +1,42 @@
+import { useRouter } from "next/dist/client/router";
 import styled from "styled-components";
 import { Button } from "../ui/Button";
 
-const Pagination = () => {
+interface IPaginationProps {
+  firstPage: boolean;
+  lastPage: boolean;
+  prevPage: string;
+  nextPage: string;
+}
+
+const Pagination = ({
+  firstPage,
+  lastPage,
+  prevPage,
+  nextPage,
+}: IPaginationProps) => {
+  const router = useRouter();
   return (
     <ButtonGroup>
-      <Button outline>Vorherige</Button>
-      <Button outline>Nächste</Button>
+      <Button
+        outline
+        disabled={firstPage}
+        onClick={() => {
+          router.push(prevPage);
+        }}
+      >
+        Vorherige
+      </Button>
+
+      <Button
+        outline
+        disabled={lastPage}
+        onClick={() => {
+          router.push(nextPage);
+        }}
+      >
+        Nächste
+      </Button>
     </ButtonGroup>
   );
 };

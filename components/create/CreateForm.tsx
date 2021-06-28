@@ -15,6 +15,7 @@ const CreateForm = () => {
   const router = useRouter();
   // image
   const [imagePreview, setImagePreview] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);
     // @ts-expect-error
@@ -38,6 +39,7 @@ const CreateForm = () => {
 
   const onSubmit = async (daten: any) => {
     // console.log(daten);
+    setLoading(true);
     try {
       const { data } = await axios.post("/api/items", {
         name: daten.name,
@@ -45,9 +47,11 @@ const CreateForm = () => {
         bild: imagePreview,
       });
       if (data) {
+        setLoading(false);
         router.push("/inventar");
       }
     } catch (error) {
+      setLoading(false);
       console.log(error.response.data.message);
     }
   };
@@ -96,7 +100,9 @@ const CreateForm = () => {
           </div>
         </div>
 
-        <Button type="submit">Hinzufügen</Button>
+        <Button disabled={loading} type="submit">
+          {loading ? "Lädt..." : "Hinzufügen"}
+        </Button>
       </form>
     </Wrapper>
   );

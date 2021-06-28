@@ -7,6 +7,9 @@ import Image from "next/image";
 import sample from "../../public/images/sample.jpeg";
 
 const Table = ({ items }: { items: IItem[] }) => {
+  // console.log(items);
+
+  if (!items) return <div>Lädt...</div>;
   return (
     <StyledTable>
       <thead>

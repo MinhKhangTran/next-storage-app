@@ -6,6 +6,7 @@ import { itemSchema } from "@/utils/itemValidation";
 import { IImage } from "@/interfaces/Item";
 import cloudinary from "cloudinary";
 import { APIFeatures } from "@/utils/apiFeatures";
+import { resPerPage } from "../config";
 
 // Setting up cloudinary config
 //@ts-expect-error
@@ -68,8 +69,14 @@ export const getItems = asyncWrapper(
       Item.find({ user }).sort({ createdAt: -1 }),
       req.query
     ).search();
-    const items = await apiFeatures.query;
-    res.status(200).json(items);
+    let items = await apiFeatures.query;
+    //pagination
+    //get total count
+    const itemCount = await items.length;
+    apiFeatures.paginate(resPerPage);
+
+    items = await apiFeatures.query;
+    res.status(200).json({ items, itemCount, resPerPage });
   }
 );
 

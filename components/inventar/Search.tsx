@@ -1,7 +1,5 @@
 import { useSearchStore } from "@/utils/store";
-import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
+
 import styled from "styled-components";
 
 const Search = () => {
@@ -9,7 +7,6 @@ const Search = () => {
   const setSearchData = useSearchStore((state) => state.setSearchData);
   // console.log(searchData);
   // const [searchData, setSearchData] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
 
   // useEffect(() => {
   //   const getResults = async () => {

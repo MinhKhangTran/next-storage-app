@@ -2,43 +2,80 @@ import Layout from "@/components/ui/Layout";
 import Navigation from "@/components/inventar/Navigation";
 import Table from "@/components/inventar/Table";
 
-import useSWR from "swr";
-import { IItem } from "@/interfaces/Item";
-import { getSession, useSession } from "next-auth/client";
-import { useRouter } from "next/dist/client/router";
-import { useEffect } from "react";
+import useSWR, { useSWRInfinite } from "swr";
+import { IItem, IPaginateItems } from "@/interfaces/Item";
+import { getSession } from "next-auth/client";
+
 import styled from "styled-components";
 import Pagination from "@/components/inventar/Pagination";
 import { useSearchStore } from "@/utils/store";
+import { useRouter } from "next/dist/client/router";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { resPerPage } from "../config";
 
 const InventarPage = () => {
-  // console.log(error, data);
+  const router = useRouter();
+  const [searchResult, setSearchResult] = useState<IPaginateItems[]>([]);
   const searchData = useSearchStore((state) => state.searchData);
-  // console.log(searchData);
+  //get page from query
+  const { page } = router.query;
+
   const { data } = useSWR(
-    searchData === "" ? "/api/items" : `/api/items?item=${searchData}`
-  ) as { data: IItem[]; error: any };
+    page ? `/api/items/?page=${page}` : `/api/items/?page=1`
+  ) as {
+    data: IPaginateItems;
+  };
 
-  // const [session] = useSession();
-  // const router = useRouter();
+  useEffect(() => {
+    const getResults = async () => {
+      if (searchData === "") {
+        setSearchResult([]);
+      } else {
+        const { data } = await axios.get(`/api/items?item=${searchData}`);
+        setSearchResult(data);
+      }
+    };
+    getResults();
+  }, [searchData]);
 
-  // useEffect(() => {
-  //   if (!session) {
-  //     router.push("/");
-  //   }
-  // }, [session]);
+  //total pages, lastpage, prev page, nextpage
+  const totalPages = Math.ceil(data?.itemCount / resPerPage);
+  const firstPage = Number(page) === 1;
+  const lastPage = Number(page) === totalPages;
+  const prevPage = `/inventar/?page=${Number(page) - 1}`;
+  const nextPage = `/inventar/?page=${Number(page) + 1}`;
 
-  if (!data) return <Layout Heading="Inventar">Es lädt nocht...</Layout>;
+  useEffect(() => {
+    router.push("/inventar/?page=1");
+  }, []);
+
+  if (!data || !searchResult)
+    return <Layout Heading="Inventar">Es lädt noch...</Layout>;
   return (
     <Layout Heading="Inventar">
       {/* Navigation => Search Dropdown and Button */}
       <Navigation />
       {/* Table */}
-      <Table items={data} />
+      <Table
+        items={
+          searchData
+            ? //@ts-expect-error
+              searchResult.items
+            : data.items
+        }
+      />
       {/* Down line => Number of Items and Pagination */}
       <StyledBottomLine>
-        <p className="body-lg">{data.length} Items</p>
-        <Pagination />
+        <p className="body-lg">{data.itemCount} Items</p>
+        {totalPages > 1 && (
+          <Pagination
+            firstPage={firstPage}
+            lastPage={lastPage}
+            prevPage={prevPage}
+            nextPage={nextPage}
+          />
+        )}
       </StyledBottomLine>
     </Layout>
   );

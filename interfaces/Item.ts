@@ -9,3 +9,9 @@ export interface IItem {
   bild: IImage;
   updatedAt: string;
 }
+
+export interface IPaginateItems {
+  items: IItem[];
+  itemCount: number;
+  resPerPage: number;
+}

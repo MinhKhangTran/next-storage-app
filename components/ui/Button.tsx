@@ -11,7 +11,7 @@ export const Button = styled.button<ButtonProps>`
           background: var(--primary-50);
           color: var(--primary-500);
 
-          &:hover {
+          &:hoverenabled {
             background: var(--primary-500);
             color: var(--primary-50);
             box-shadow: var(--shadow-1);
@@ -21,7 +21,7 @@ export const Button = styled.button<ButtonProps>`
           border: none;
           background: var(--primary-500);
           color: white;
-          &:hover {
+          &:hover:enabled {
             background: var(--primary-600);
             color: var(--primary-50);
             box-shadow: var(--shadow-1);
@@ -35,6 +35,10 @@ export const Button = styled.button<ButtonProps>`
   font-size: 1.1rem;
   cursor: pointer;
   transition: var(--transition);
+  &:disabled {
+    background: var(--primary-600);
+    cursor: not-allowed;
+  }
   @media screen and (max-width: 768px) {
     font-size: 0.9rem;
   }
