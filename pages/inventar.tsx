@@ -58,6 +58,7 @@ const InventarPage = () => {
       <Navigation />
       {/* Table */}
       <Table
+        page={page}
         items={
           searchData
             ? //@ts-expect-error

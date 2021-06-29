@@ -5,9 +5,38 @@ import "moment/locale/de";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import Image from "next/image";
 import sample from "../../public/images/sample.jpeg";
+import axios from "axios";
+import { mutate } from "swr";
 
-const Table = ({ items }: { items: IItem[] }) => {
+const Table = ({
+  items,
+  page,
+}: {
+  items: IItem[];
+  page: string | string[] | undefined;
+}) => {
   // console.log(items);
+
+  const increaseAmount = async (_id: string) => {
+    try {
+      const { data } = await axios.put(`/api/items/menge/inc/${_id}`);
+      if (data) {
+        mutate(page ? `/api/items/?page=${page}` : "/api/items/page=1");
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+  const decreaseAmount = async (_id: string) => {
+    try {
+      const { data } = await axios.put(`/api/items/menge/dec/${_id}`);
+      if (data) {
+        mutate(page ? `/api/items/?page=${page}` : "/api/items/page=1");
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
   if (!items) return <div>Lädt...</div>;
   return (
@@ -38,11 +67,21 @@ const Table = ({ items }: { items: IItem[] }) => {
               </td>
               <td>{item.name}</td>
               <td className="menge">
-                <button className="minus">
+                <button
+                  className="minus"
+                  onClick={() => {
+                    decreaseAmount(item._id);
+                  }}
+                >
                   <FaMinus />
                 </button>
                 {item.menge}
-                <button className="plus">
+                <button
+                  className="plus"
+                  onClick={() => {
+                    increaseAmount(item._id);
+                  }}
+                >
                   <FaPlus />
                 </button>
               </td>

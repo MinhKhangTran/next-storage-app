@@ -117,12 +117,83 @@ export const updateItem = asyncWrapper(
     } catch (error) {
       return next(createCustomError(error, 500));
     }
+
+    const bild = req.body.bild;
+    //if user changes the photo
+    if (bild) {
+      //delete the old one
+      await cloudinary.v2.uploader.destroy(item.bild.public_id);
+
+      //cloudinary actions
+      const result = await cloudinary.v2.uploader.upload(bild, {
+        folder: "storage/items",
+      });
+
+      let imageLink: IImage = { public_id: "", url: "" };
+      // console.log(result);
+
+      imageLink.public_id = result.public_id;
+
+      imageLink.url = result.secure_url;
+
+      req.body.bild = imageLink;
+    }
+
     const updateItem = await Item.findByIdAndUpdate(
       req.query.id,
       { $set: req.body },
       { new: true, runValidators: true }
     );
     res.status(200).json(updateItem);
+  }
+);
+/**
+ * Increase Item Quantity
+ * PUT /api/items/menge/inc/:id
+ * PRIVATE
+ */
+
+export const increaseQuantity = asyncWrapper(
+  async (req: NextApiRequest, res: NextApiResponse, next: any) => {
+    const item = await Item.findById(req.query.id);
+    if (!item) {
+      return next(createCustomError("Kein Item gefunden", 404));
+    }
+
+    const updateItem = await Item.findByIdAndUpdate(
+      req.query.id,
+      { $inc: { menge: 1 } },
+      { new: true, runValidators: true }
+    );
+    res.status(200).json(updateItem);
+  }
+);
+
+/**
+ * Decrease Item Quantity
+ * PUT /api/items/menge/dec/:id
+ * PRIVATE
+ */
+
+export const decreaseQuantity = asyncWrapper(
+  async (req: NextApiRequest, res: NextApiResponse, next: any) => {
+    const item = await Item.findById(req.query.id);
+    if (!item) {
+      return next(createCustomError("Kein Item gefunden", 404));
+    }
+
+    if (item.menge > 1) {
+      const updateItem = await Item.findByIdAndUpdate(
+        req.query.id,
+        { $inc: { menge: -1 } },
+        { new: true, runValidators: true }
+      );
+      res.status(200).json(updateItem);
+    }
+    if (item.menge === 1) {
+      await item.remove();
+      res.status(200).json({ message: "Item gelöscht" });
+    }
   }
 );
 
@@ -138,7 +209,10 @@ export const deleteItem = asyncWrapper(
     if (!item) {
       return next(createCustomError("Kein Item gefunden", 404));
     }
-    item.remove();
+    //delete Photo from cloudinary
+    await cloudinary.v2.uploader.destroy(item.bild.public_id);
+
+    await item.remove();
     res.status(200).json({ message: "Item gelöscht" });
   }
 );
