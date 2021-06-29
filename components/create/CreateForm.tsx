@@ -5,17 +5,33 @@ import React, { useState } from "react";
 import { Button } from "../ui/Button";
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
+import { IItem } from "@/interfaces/Item";
+import { useEffect } from "react";
 
-const CreateForm = () => {
+const CreateForm = ({ item }: { item?: IItem }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: item ? item.name : "",
+      menge: item ? item.menge : 0,
+      bild: null,
+    },
+  });
   const router = useRouter();
   // image
   const [imagePreview, setImagePreview] = useState<any>(null);
+  const [oldImage, setOldImage] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  useEffect(() => {
+    if (item) {
+      setOldImage(item.bild);
+    }
+  }, [item]);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);
     // @ts-expect-error
@@ -24,6 +40,7 @@ const CreateForm = () => {
 
     //reset ImagePreview
     setImagePreview(null);
+    setOldImage(null);
     //create reader from FileReader Class
     const reader = new FileReader();
     //put image in ImagePreview
@@ -37,7 +54,7 @@ const CreateForm = () => {
     reader.readAsDataURL(file[0]);
   };
 
-  const onSubmit = async (daten: any) => {
+  const createItem = async (daten: any) => {
     // console.log(daten);
     setLoading(true);
     try {
@@ -55,15 +72,49 @@ const CreateForm = () => {
       console.log(error.response.data.message);
     }
   };
+  const updateItem = async (daten: any) => {
+    // console.log(daten);
+    setLoading(true);
+    if (imagePreview) {
+      try {
+        const { data } = await axios.put(`/api/items/${item?._id}`, {
+          name: daten.name,
+          menge: daten.menge,
+          bild: imagePreview,
+        });
+        if (data) {
+          setLoading(false);
+          router.push("/inventar");
+        }
+      } catch (error) {
+        setLoading(false);
+        console.log(error.response.data.message);
+      }
+    } else {
+      try {
+        const { data } = await axios.put(`/api/items/${item?._id}`, {
+          name: daten.name,
+          menge: daten.menge,
+        });
+        if (data) {
+          setLoading(false);
+          router.push("/inventar");
+        }
+      } catch (error) {
+        setLoading(false);
+        console.log(error.response.data.message);
+      }
+    }
+  };
   return (
     <Wrapper>
       {/* NAME UND MENGE */}
 
       <h4>Name und Menge eingeben</h4>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(item ? updateItem : createItem)}>
         <div className="floatright">
           <div className="form-control">
-            <label>Name</label>
+            <label htmlFor="name">Name</label>
             <input
               type="text"
               {...register("name", { required: "Pflichtfeld!" })}
@@ -71,7 +122,7 @@ const CreateForm = () => {
             {errors.name && <p className="hint">{errors.name.message}</p>}
           </div>
           <div className="form-control menge">
-            <label>Menge</label>
+            <label htmlFor="menge">Menge</label>
             <input
               type="number"
               {...register("menge", { required: "Pflichtfeld!" })}
@@ -83,8 +134,26 @@ const CreateForm = () => {
         {/* BILD */}
 
         <div className="divider" />
-        <h4>Bild hinzufügen</h4>
-        <div className="floatright">
+        <h4>{item ? "Bild ändern?" : "Bild hinzufügen"}</h4>
+        {item && (
+          <ImageWrapper>
+            {oldImage && (
+              <Image src={oldImage.url} alt="img" width="150" height="150" />
+            )}
+            {item && (
+              <Button
+                type="button"
+                outline
+                onClick={() => {
+                  setShowEdit(!showEdit);
+                }}
+              >
+                Bild Ändern
+              </Button>
+            )}
+          </ImageWrapper>
+        )}
+        {showEdit && (
           <div className="form-control">
             <label>Bild</label>
             <input
@@ -98,11 +167,39 @@ const CreateForm = () => {
               <Image src={imagePreview} alt="img" width="150" height="150" />
             )}
           </div>
-        </div>
+        )}
+        {!item && (
+          <div className="floatright">
+            <div className="form-control">
+              <label>Bild</label>
+              <input
+                type="file"
+                {...register("bild", { required: "Pflichtfeld!" })}
+                onChange={onChange}
+                name="bild"
+              ></input>
+              {errors.bild && <p className="hint">{errors.bild.message}</p>}
+              {imagePreview !== null && (
+                <Image src={imagePreview} alt="img" width="150" height="150" />
+              )}
+            </div>
+          </div>
+        )}
 
-        <Button disabled={loading} type="submit">
-          {loading ? "Lädt..." : "Hinzufügen"}
-        </Button>
+        <ButtonGroup>
+          <Button disabled={loading} type="submit">
+            {loading ? "Lädt..." : item ? "Ändern" : "Hinzufügen"}
+          </Button>
+          <Button
+            outline
+            type="button"
+            onClick={() => {
+              router.back();
+            }}
+          >
+            Abbrechen
+          </Button>
+        </ButtonGroup>
       </form>
     </Wrapper>
   );
@@ -134,6 +231,20 @@ const Wrapper = styled.div`
     background: var(--grey-100);
     margin: 2rem 0;
   }
+`;
+
+const ButtonGroup = styled.div`
+  margin: 2rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 50%;
+`;
+
+const ImageWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 `;
 
 export default CreateForm;

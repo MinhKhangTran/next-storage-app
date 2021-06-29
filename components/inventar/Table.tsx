@@ -7,6 +7,7 @@ import Image from "next/image";
 import sample from "../../public/images/sample.jpeg";
 import axios from "axios";
 import { mutate } from "swr";
+import Link from "next/link";
 
 const Table = ({
   items,
@@ -55,12 +56,14 @@ const Table = ({
             <tr key={item._id}>
               <td>
                 {item.bild ? (
-                  <Image
-                    className="img"
-                    src={item.bild.url}
-                    width="70"
-                    height="70"
-                  />
+                  <Link href={`/items/${item._id}`}>
+                    <Image
+                      className="img"
+                      src={item.bild.url}
+                      width="70"
+                      height="70"
+                    />
+                  </Link>
                 ) : (
                   <Image className="img" src={sample} width="70" height="70" />
                 )}
