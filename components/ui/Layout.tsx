@@ -38,7 +38,7 @@ const StyledLayout = styled.section`
   max-width: 768px;
   margin: 0 auto;
   nav {
-    margin: 4rem 0;
+    margin: 2rem 0;
     padding-bottom: 1.5rem;
     display: flex;
     justify-content: space-between;

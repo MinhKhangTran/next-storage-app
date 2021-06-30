@@ -40,6 +40,12 @@ const Table = ({
   };
 
   if (!items) return <div>Lädt...</div>;
+  if (items.length === 0)
+    return (
+      <h3 style={{ marginTop: "2rem", color: "var(--red-dark)" }}>
+        Kein Item mit diesem Namen gefunden
+      </h3>
+    );
   return (
     <StyledTable>
       <thead>
@@ -78,7 +84,9 @@ const Table = ({
                 >
                   <FaMinus />
                 </button>
-                {item.menge}
+                <p className={`${item.menge <= 3 ? "danger" : ""} menge__text`}>
+                  {item.menge}
+                </p>
                 <button
                   className="plus"
                   onClick={() => {
@@ -137,7 +145,15 @@ const StyledTable = styled.table`
     display: flex;
     align-items: center;
     justify-content: space-around;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    .menge__text {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .danger {
+      color: var(--red-dark);
+    }
   }
   button {
     background: transparent;

@@ -17,7 +17,7 @@ const CreateForm = ({ item }: { item?: IItem }) => {
     defaultValues: {
       name: item ? item.name : "",
       menge: item ? item.menge : 0,
-      bild: null,
+      bild: "",
     },
   });
   const router = useRouter();
@@ -109,6 +109,15 @@ const CreateForm = ({ item }: { item?: IItem }) => {
   return (
     <Wrapper>
       {/* NAME UND MENGE */}
+      <Button
+        outline
+        type="button"
+        onClick={() => {
+          router.back();
+        }}
+      >
+        Zurück
+      </Button>
 
       <h4>Name und Menge eingeben</h4>
       <form onSubmit={handleSubmit(item ? updateItem : createItem)}>
@@ -190,15 +199,18 @@ const CreateForm = ({ item }: { item?: IItem }) => {
           <Button disabled={loading} type="submit">
             {loading ? "Lädt..." : item ? "Ändern" : "Hinzufügen"}
           </Button>
-          <Button
-            outline
-            type="button"
-            onClick={() => {
-              router.back();
-            }}
-          >
-            Abbrechen
-          </Button>
+
+          {item && (
+            <Button
+              className="delete"
+              type="button"
+              onClick={() => {
+                router.back();
+              }}
+            >
+              Löschen
+            </Button>
+          )}
         </ButtonGroup>
       </form>
     </Wrapper>
@@ -231,14 +243,25 @@ const Wrapper = styled.div`
     background: var(--grey-100);
     margin: 2rem 0;
   }
+  button {
+    margin-bottom: 2rem;
+  }
 `;
 
 const ButtonGroup = styled.div`
   margin: 2rem 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
   width: 50%;
+  .delete {
+    background: var(--red-light);
+    color: var(--red-dark);
+    &:hover {
+      background: var(--red-dark);
+      color: var(--red-light);
+    }
+  }
 `;
 
 const ImageWrapper = styled.div`

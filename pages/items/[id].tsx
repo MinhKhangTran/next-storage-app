@@ -7,15 +7,24 @@ import CreateForm from "@/components/create/CreateForm";
 import useSWR from "swr";
 import { IItem } from "@/interfaces/Item";
 import { useRouter } from "next/dist/client/router";
+import { useItemStore } from "@/utils/store";
+import { useEffect } from "react";
 
-const CreatePage = () => {
+const SinglePage = () => {
   const router = useRouter();
-  const { data } = useSWR(`/api/items/${router.query.id}`) as { data: IItem };
-  //   console.log(data);
+  const id = router.query.id as string;
+
+  const item = useItemStore((state) => state.item) as IItem;
+  const fetchItem = useItemStore((state) => state.fetchItem);
+  // const { data } = useSWR(`/api/items/${router.query.id}`) as { data: IItem };
+
+  useEffect(() => {
+    fetchItem(id);
+  }, []);
 
   return (
     <Layout Heading="Ändern">
-      <CreateForm item={data} />
+      <CreateForm item={item} />
     </Layout>
   );
 };
@@ -23,8 +32,6 @@ const CreatePage = () => {
 export async function getServerSideProps(context: any) {
   connectDB();
   const session = await getSession({ req: context.req });
-  // const user = await User.findOne({ name: session?.user?.name });
-  // console.log(user);
 
   if (!session) {
     return {
@@ -39,4 +46,4 @@ export async function getServerSideProps(context: any) {
   };
 }
 
-export default CreatePage;
+export default SinglePage;
