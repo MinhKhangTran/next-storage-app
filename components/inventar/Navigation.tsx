@@ -9,14 +9,14 @@ const Navigation = () => {
     <Wrapper>
       <div className="filter">
         <Search />
-        <div className="form-control">
+        {/* <div className="form-control">
           <label>Filtern nach</label>
           <select name="items" id="items">
             <option value="name">Name</option>
             <option value="menge">Menge</option>
             <option value="datum">Datum</option>
           </select>
-        </div>
+        </div> */}
       </div>
 
       <Button

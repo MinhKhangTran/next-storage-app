@@ -8,6 +8,7 @@ import sample from "../../public/images/sample.jpeg";
 import axios from "axios";
 import { mutate } from "swr";
 import Link from "next/link";
+import { useSortableData } from "./useSortableData";
 
 const Table = ({
   items,
@@ -39,6 +40,43 @@ const Table = ({
     }
   };
 
+  // //filtering
+
+  // const copyItems = [...items];
+  // const [filterName, setFilterName] = useState(false);
+  // const [filterMenge, setFilterMenge] = useState(false);
+  // const [filterDatum, setFilterDatum] = useState(false);
+
+  // //Filter by Name
+  // if (filterName) {
+  //   copyItems.sort((a, b) => a.name.localeCompare(b.name));
+  // } else {
+  //   copyItems.sort((a, b) => b.name.localeCompare(a.name));
+  // }
+  // //Filter by Menge
+  // if (filterMenge) {
+  //   copyItems.sort((a, b) => a.menge - b.menge);
+  // } else {
+  //   copyItems.sort((a, b) => b.menge - a.menge);
+  // }
+  // //Filter by Datum
+  // if (filterDatum) {
+  //   copyItems.sort((a, b) => a.updatedAt.localeCompare(b.updatedAt));
+  // } else {
+  //   copyItems.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  // }
+  // console.log(copyItems);
+
+  //Filtering
+  const { array, requestSort, sortConfig } = useSortableData(items);
+
+  const getClassNamesFor = (name: string) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
+
   if (!items) return <div>Lädt...</div>;
   if (items.length === 0)
     return (
@@ -51,13 +89,37 @@ const Table = ({
       <thead>
         <tr>
           <th>Bild</th>
-          <th>Name 🔽</th>
-          <th>Menge 🔽</th>
-          <th className="mobile">Zuletzt geändert</th>
+          <th>
+            Name{" "}
+            <span
+              onClick={() => requestSort("name")}
+              className={getClassNamesFor("name")}
+            >
+              🔽
+            </span>
+          </th>
+          <th>
+            Menge{" "}
+            <span
+              onClick={() => requestSort("menge")}
+              className={getClassNamesFor("menge")}
+            >
+              🔽
+            </span>
+          </th>
+          <th className="mobile">
+            Zuletzt geändert{" "}
+            <span
+              onClick={() => requestSort("updatedAt")}
+              className={getClassNamesFor("updatedAt")}
+            >
+              🔽
+            </span>
+          </th>
         </tr>
       </thead>
       <tbody>
-        {items.map((item) => {
+        {array.map((item) => {
           return (
             <tr key={item._id}>
               <td>
@@ -114,6 +176,9 @@ const StyledTable = styled.table`
   margin-top: 1rem;
   border-collapse: collapse;
   border: 1px solid var(--primary-100);
+  span {
+    cursor: pointer;
+  }
 
   td,
   th {
