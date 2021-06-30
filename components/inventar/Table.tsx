@@ -51,9 +51,9 @@ const Table = ({
       <thead>
         <tr>
           <th>Bild</th>
-          <th>Name</th>
-          <th>Menge</th>
-          <th>Zuletzt geändert</th>
+          <th>Name 🔽</th>
+          <th>Menge 🔽</th>
+          <th className="mobile">Zuletzt geändert</th>
         </tr>
       </thead>
       <tbody>
@@ -96,7 +96,7 @@ const Table = ({
                   <FaPlus />
                 </button>
               </td>
-              <td>
+              <td className="mobile">
                 <Moment locale="de" fromNow>
                   {item.updatedAt}
                 </Moment>

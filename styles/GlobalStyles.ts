@@ -293,6 +293,13 @@ label {
   font-weight: var(--hint-fw);
   color: var(--red-dark)
 }
+/* display none for mobile screen */
+@media screen and (max-width:768px){
+
+.mobile{
+  display: none;
+}
+}
 
 `;
 export default GlobalStyles;

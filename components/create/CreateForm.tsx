@@ -7,6 +7,7 @@ import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import { IItem } from "@/interfaces/Item";
 import { useEffect } from "react";
+import { mutate } from "swr";
 
 const CreateForm = ({ item }: { item?: IItem }) => {
   const {
@@ -104,6 +105,16 @@ const CreateForm = ({ item }: { item?: IItem }) => {
         setLoading(false);
         console.log(error.response.data.message);
       }
+    }
+  };
+  const deleteItem = async (_id: string) => {
+    try {
+      const { data } = await axios.delete(`/api/items/${_id}`);
+      if (data) {
+        router.push("/inventar");
+      }
+    } catch (error) {
+      console.log(error.response);
     }
   };
   return (
@@ -205,7 +216,7 @@ const CreateForm = ({ item }: { item?: IItem }) => {
               className="delete"
               type="button"
               onClick={() => {
-                router.back();
+                deleteItem(item._id);
               }}
             >
               Löschen
