@@ -151,7 +151,7 @@ const Table = ({
                   onClick={() => {
                     decreaseAmount(item._id);
                     if (item.menge - 1 === 3) {
-                      console.log("Oh nooo");
+                      // console.log("Oh nooo");
                       sendEmail({
                         message: `Das Item ${item.name} gibt es nur noch dreimal, bitte neue besorgen!!`,
                       });

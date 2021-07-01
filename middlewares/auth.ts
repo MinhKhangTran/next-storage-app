@@ -12,7 +12,7 @@ const isAuth = asyncWrapper(
     }
 
     const user = await User.findOne({ name: session?.user?.name });
-    console.log(user);
+    // console.log(user);
 
     req.user = user;
     next();

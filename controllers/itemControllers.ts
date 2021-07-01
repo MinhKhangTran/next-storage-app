@@ -41,7 +41,7 @@ export const createItem = asyncWrapper(
     });
 
     let imageLink: IImage = { public_id: "", url: "" };
-    console.log(result);
+    // console.log(result);
 
     imageLink.public_id = result.public_id;
 

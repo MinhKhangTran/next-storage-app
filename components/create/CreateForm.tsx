@@ -33,7 +33,7 @@ const CreateForm = ({ item }: { item?: IItem }) => {
   }, [item]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
+    // console.log(e.target.files);
     // @ts-expect-error
     const file = Array.from(e.target.files);
     // console.log(file);
