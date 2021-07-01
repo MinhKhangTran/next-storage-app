@@ -7,7 +7,6 @@ import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import { IItem } from "@/interfaces/Item";
 import { useEffect } from "react";
-import { mutate } from "swr";
 
 const CreateForm = ({ item }: { item?: IItem }) => {
   const {

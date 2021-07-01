@@ -69,22 +69,21 @@
    - Create a Layout with Navigation to navigate through pages✅
    - Mobile Responsive✅
 4. Connect App to ~~Redux~~ Zustand for State Management
-   - notification state
-5. Create Components from the frontend to call these functions
-   - fetch users items on the homepage (useSWR)
-   - use react-hook-forms for creating new items
-   - create Icons to delete and update
-   - use react-hook-forms for updating an old item => get items data in form
+   - ~~notification state~~~
+   - single item and searchData✅
+5. Create Components from the frontend to call these functions✅
+   - fetch users items on the homepage (useSWR)✅
+   - use react-hook-forms for creating new items✅
+   - create Icons to delete and update✅
+   - use react-hook-forms for updating an old item => get items data in form❓(first time fields are empty??)
 6. Add support for user auth with next auth✅
-
-   - start with next auth credentials✅
+   - start with next auth github✅
    - redirect unlogged user to homepage✅
    - if logged in show user profile page with made items✅
-
-7. User can search for items and filter, sort
-8. Pagination
-9. Do some SEO Stuffs and 404 page
+7. User can search for items and filter, sort✅
+8. Pagination✅
+9. Do some SEO Stuffs and 404 page✅
 10. Lauch on Vercel
     - add db into next.config.js ✅
-    - deploy app
-    - add env variables to vercel
+    - deploy app✅
+    - add env variables to vercel✅

@@ -1,4 +1,4 @@
-import { getSession, useSession } from "next-auth/client";
+import { useSession } from "next-auth/client";
 import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import LoginForm from "@/components/homepage/LoginForm";

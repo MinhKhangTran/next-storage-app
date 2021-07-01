@@ -7,7 +7,7 @@ import CreateForm from "@/components/create/CreateForm";
 
 const CreatePage = () => {
   return (
-    <Layout Heading="Hinzufügen">
+    <Layout title="Storage App | Hinzufügen" Heading="Hinzufügen">
       <CreateForm />
     </Layout>
   );

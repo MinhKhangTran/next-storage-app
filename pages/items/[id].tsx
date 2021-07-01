@@ -4,7 +4,7 @@ import { getSession } from "next-auth/client";
 
 import Layout from "@/components/ui/Layout";
 import CreateForm from "@/components/create/CreateForm";
-import useSWR from "swr";
+
 import { IItem } from "@/interfaces/Item";
 import { useRouter } from "next/dist/client/router";
 import { useItemStore } from "@/utils/store";
@@ -23,7 +23,7 @@ const SinglePage = () => {
   }, []);
 
   return (
-    <Layout Heading="Ändern">
+    <Layout title="Storage App | Ändern" Heading="Ändern">
       <CreateForm item={item} />
     </Layout>
   );

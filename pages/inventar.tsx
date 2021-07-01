@@ -2,8 +2,8 @@ import Layout from "@/components/ui/Layout";
 import Navigation from "@/components/inventar/Navigation";
 import Table from "@/components/inventar/Table";
 
-import useSWR, { useSWRInfinite } from "swr";
-import { IItem, IPaginateItems } from "@/interfaces/Item";
+import useSWR from "swr";
+import { IPaginateItems } from "@/interfaces/Item";
 import { getSession } from "next-auth/client";
 
 import styled from "styled-components";
@@ -51,9 +51,13 @@ const InventarPage = () => {
   }, []);
 
   if (!data || !searchResult)
-    return <Layout Heading="Inventar">Es lädt noch...</Layout>;
+    return (
+      <Layout title="Storage App | Inventar" Heading="Inventar">
+        Es lädt noch...
+      </Layout>
+    );
   return (
-    <Layout Heading="Inventar">
+    <Layout title="Storage App | Inventar" Heading="Inventar">
       {/* Navigation => Search Dropdown and Button */}
       <Navigation />
       {/* Table */}
