@@ -77,6 +77,8 @@ const Table = ({
     return sortConfig.key === name ? sortConfig.direction : undefined;
   };
 
+  //Sent email
+
   if (!items) return <div>Lädt...</div>;
   if (items.length === 0)
     return (
