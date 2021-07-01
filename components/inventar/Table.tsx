@@ -40,6 +40,15 @@ const Table = ({
     }
   };
 
+  //sending email
+  const sendEmail = async (values: any) => {
+    try {
+      axios.post("/api/email", values);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
   // //filtering
 
   // const copyItems = [...items];
@@ -92,30 +101,27 @@ const Table = ({
         <tr>
           <th>Bild</th>
           <th>
-            Name{" "}
             <span
               onClick={() => requestSort("name")}
               className={getClassNamesFor("name")}
             >
-              🔽
+              Name
             </span>
           </th>
           <th>
-            Menge{" "}
             <span
               onClick={() => requestSort("menge")}
               className={getClassNamesFor("menge")}
             >
-              🔽
+              Menge
             </span>
           </th>
           <th className="mobile">
-            Zuletzt geändert{" "}
             <span
               onClick={() => requestSort("updatedAt")}
               className={getClassNamesFor("updatedAt")}
             >
-              🔽
+              Zuletzt geändert
             </span>
           </th>
         </tr>
@@ -144,6 +150,12 @@ const Table = ({
                   className="minus"
                   onClick={() => {
                     decreaseAmount(item._id);
+                    if (item.menge - 1 === 3) {
+                      console.log("Oh nooo");
+                      sendEmail({
+                        message: `Das Item ${item.name} gibt es nur noch dreimal, bitte neue besorgen!!`,
+                      });
+                    }
                   }}
                 >
                   <FaMinus />
@@ -180,6 +192,12 @@ const StyledTable = styled.table`
   border: 1px solid var(--primary-100);
   span {
     cursor: pointer;
+  }
+  span.ascending::after {
+    content: "🔽";
+  }
+  span.descending::after {
+    content: "🔼";
   }
 
   td,

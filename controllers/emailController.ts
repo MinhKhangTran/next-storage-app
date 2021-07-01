@@ -25,9 +25,9 @@ export const contactEmail = async (data: any) => {
         name: "MKT",
         intro: [
           "Hallo, Eine Nachricht vom Storage App",
-          `From:  ${data.email}`,
-          `Name:  ${data.name}`,
-          `Message:  ${data.message}`,
+          // `From:  ${data.email}`,
+          // `Name:  ${data.name}`,
+          `${data.message}`,
         ],
         outro: "Bis zum nächsten mal",
       },
